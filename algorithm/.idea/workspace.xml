@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49648a5b-ccae-40e6-a0a1-7ba9278454f1" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stonesgame/Game.java" afterPath="$PROJECT_DIR$/src/stonesgame/Game.java" />
@@ -41,8 +42,8 @@
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/stonesgame/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.8085107">
-              <caret line="55" column="43" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
+            <state vertical-scroll-proportion="0.49323016">
+              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding>
                 <element signature="e#3402#3403#0" expanded="true" />
                 <element signature="e#3438#3439#0" expanded="true" />
@@ -646,7 +647,7 @@
       <workItem from="1459615900758" duration="1254000" />
       <workItem from="1459879660268" duration="10988000" />
       <workItem from="1460480515095" duration="1239000" />
-      <workItem from="1460482308751" duration="9347000" />
+      <workItem from="1460482308751" duration="9595000" />
     </task>
     <task id="LOCAL-00001" summary="test idea+git">
       <created>1460483492342</created>
@@ -658,7 +659,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30212000" />
+    <option name="totallyTimeSpent" value="30460000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
@@ -847,8 +848,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stonesgame/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.8085107">
-          <caret line="55" column="43" selection-start-line="55" selection-start-column="43" selection-end-line="55" selection-end-column="43" />
+        <state vertical-scroll-proportion="0.49323016">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding>
             <element signature="e#3402#3403#0" expanded="true" />
             <element signature="e#3438#3439#0" expanded="true" />

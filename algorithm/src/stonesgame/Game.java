@@ -29,7 +29,7 @@ public class Game {
 
 
     public void start(){
-
+        //smth test idea + git
     }
 
 

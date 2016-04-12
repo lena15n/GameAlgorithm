@@ -17,13 +17,13 @@ public class Program {
         stonesInHeaps.add(10);
         stonesInHeaps.add(7);
 
-        int endSum = 70;
+        int endSum = 26;
 
         int firstPlayer = 0;
 
 
         Game game = new Game(countOfPlayers, operations, stonesInHeaps, endSum, firstPlayer);
 
-        game.calculate();
+        game.calculateAllPossibleStatesOnIter();
     }
 }

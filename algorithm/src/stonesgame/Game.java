@@ -75,7 +75,7 @@ public class Game {
             for (Integer stonesOfOneHeap : currentStonesInHeaps) {//(int i = 0; i < currentState.size(); i++){
                 possibleState.setHeap(i, operation.apply(stonesOfOneHeap));
 
-                if (possibleState.getSumm() > END_OF_GAME_SUM) {
+                if (possibleState.updateSumm() > END_OF_GAME_SUM) {
                     winStatesCounter++;
 
                     System.out.print("Winner state! -> ");
@@ -117,36 +117,86 @@ public class Game {
 
 
     private class State {
-        private int index;//номер хода в игре (несколько состояний могут иметь один и тот же номер хода)
+        private long index;//номер просто вершины в дереве
+        private long step;//номер хода в игре (несколько состояний могут иметь один и тот же номер хода)
         private ArrayList<Integer> stonesInHeaps;
         private boolean win;
         private int player;//сделавший данный ход - тот, кто получил такое состояние, а не тот, кто только начнет ходить
+        private int summ;//сумма всех камней в кучах
         private ArrayList<State> nextStates;//то, почему Ход/State - дерево
 
         public State(ArrayList<Integer> stonesInHeaps) {
             this.stonesInHeaps = stonesInHeaps;
+            updateSumm();
             win = false;
         }
 
         public State(State state) {
             this.stonesInHeaps = (ArrayList<Integer>) state.getStonesInHeaps().clone();
+            updateSumm();
             win = false;
         }
 
-        public int getSumm() {
+        public void updateSumm() {
             int result = 0;
 
             for (Integer stonesInOneHeap : stonesInHeaps) {
                 result += stonesInOneHeap;
             }
 
-            return result;
+            summ = result;
         }
 
         /* TODO: add state in nextStates(int i)
              set state in nextStates(int i)
          */
 
+        public void addNextState(State state) {
+            nextStates.add(state);
+        }
+
+        public void addSomeState(long index, State state){//номер родителя
+            findState(index).addNextState(state);
+        }
+
+        /*public ArrayList<State> categoryTasks(String category){// throws TaskException {//все задания определенной категории(во всей иерархии)
+            ArrayList<Task> foundTasks = new ArrayList<>();
+            if(this.category != null && this.category.equals(category))
+                foundTasks.add(this);
+
+            for (Task subtask : subtasks) {
+                foundTasks.addAll(subtask.categoryTasks(category));
+            }
+
+            return foundTasks;
+            // TaskException("Заданий с таким именем нет ни в одном дереве!");
+
+        }*/
+
+
+        public State findState(long index){
+            if (this.index == index)
+                return this;
+
+            for (State someState : nextStates) {
+                State res = someState.findState(index);
+                if (res != null)
+                    return res;
+            }
+
+            return null;
+        }
+
+        public void remove(long id){
+            for(State someState: nextStates){
+                if(someState.index == id){
+                    nextStates.remove(someState);
+                    return;
+                }
+                else
+                    someState.remove(id);
+            }
+        }
 
         public void printHeaps() {
             System.out.print("(");
@@ -176,6 +226,7 @@ public class Game {
 
         public void setHeap(int index, int newCountOfStones) {
             stonesInHeaps.set(index, newCountOfStones);
+            updateSumm();
         }
 
 
@@ -185,6 +236,7 @@ public class Game {
 
         public void setStonesInHeaps(ArrayList<Integer> stonesInHeaps) {
             this.stonesInHeaps = stonesInHeaps;
+            updateSumm();
         }
 
         public ArrayList<State> getNextStates() {
@@ -195,6 +247,14 @@ public class Game {
             this.nextStates = nextStates;
         }
 
+        public int getSumm() {
+            return summ;
+        }
+
+        /*public void setSumm(int summ) {
+            this.summ = summ;
+        }*/
+
         public int getPlayer() {
             return player;
         }
@@ -203,7 +263,15 @@ public class Game {
             this.player = player;
         }
 
-        public int getIndex() {
+        public long getStep() {
+            return step;
+        }
+
+        public void setStep(long step) {
+            this.step = step;
+        }
+
+        public long getIndex() {
             return index;
         }
 

@@ -24,7 +24,7 @@ public class Game {
         this.FIRST_PLAYER = firstGamer;
 
         this.currentState = new State((ArrayList<Integer>) INITIAL_STONES_IN_HEAPS.clone());
-        currentState.setIndex(0);//вершина дерева игры
+        currentState.setStep(0);//вершина дерева игры, номер сделанного хода
         currentPlayer = FIRST_PLAYER;
         winner = -1;
     }
@@ -38,6 +38,11 @@ public class Game {
         for (State state : states) {
             buildGameTreeBranch(state);
         }
+
+        /*//win in every possible state
+        if (winStatesCounter == (INITIAL_STONES_IN_HEAPS.size() * OPERATIONS.size())) {
+            winner = 100;//идет присвоение победителя
+        }*/
 
     }
 
@@ -53,11 +58,9 @@ public class Game {
         }
     }
 
-    //TODO: добавлять все вершины, даже win
     public ArrayList<State> calculateAllPossibleStatesOnIter(State startState) {
         ArrayList<State> possibleStates = new ArrayList<>();
-        State possibleState = new State(startState);
-        int winStatesCounter = 0;
+        State possibleState = new State(startState, currentPlayer);
 
 
         System.out.print("Current state is: ");
@@ -75,18 +78,17 @@ public class Game {
             for (Integer stonesOfOneHeap : currentStonesInHeaps) {//(int i = 0; i < currentState.size(); i++){
                 possibleState.setHeap(i, operation.apply(stonesOfOneHeap));
 
-                if (possibleState.updateSumm() > END_OF_GAME_SUM) {
-                    winStatesCounter++;
+                if (possibleState.getSumm() > END_OF_GAME_SUM) {
+                    possibleState.setWin();
+                    possibleStates.add(possibleState);
 
                     System.out.print("Winner state! -> ");
                     possibleState.printHeaps();
                 } else {
-                    System.out.print("Next possible state -> ");
-                    possibleState.printHeaps();
-
                     possibleStates.add(possibleState);
 
-
+                    System.out.print("Next possible state -> ");
+                    possibleState.printHeaps();
                 }
 
                 //clear temp state
@@ -95,12 +97,6 @@ public class Game {
             }
 
             System.out.println("_____________");
-        }
-
-
-        //win in every possible state
-        if (winStatesCounter == (INITIAL_STONES_IN_HEAPS.size() * OPERATIONS.size())) {
-            winner = 100;//идет присвоение победителя
         }
 
         return possibleStates;
@@ -116,48 +112,67 @@ public class Game {
     }
 
 
-    private class State {
-        private long index;//номер просто вершины в дереве
-        private long step;//номер хода в игре (несколько состояний могут иметь один и тот же номер хода)
-        private ArrayList<Integer> stonesInHeaps;
-        private boolean win;
-        private int player;//сделавший данный ход - тот, кто получил такое состояние, а не тот, кто только начнет ходить
-        private int summ;//сумма всех камней в кучах
-        private ArrayList<State> nextStates;//то, почему Ход/State - дерево
 
-        public State(ArrayList<Integer> stonesInHeaps) {
-            this.stonesInHeaps = stonesInHeaps;
-            updateSumm();
-            win = false;
+}
+
+class State {
+    private static long counter;
+    private long index;//номер просто вершины в дереве
+    private long step;//номер хода в игре (несколько состояний могут иметь один и тот же номер хода)
+    private ArrayList<Integer> stonesInHeaps;
+    private boolean win;
+    private int player;//сделавший данный ход - тот, кто получил такое состояние, а не тот, кто только начнет ходить
+    private int summ;//сумма всех камней в кучах
+    private ArrayList<State> nextStates;//то, почему Ход/State - дерево
+
+    public State(ArrayList<Integer> stonesInHeaps) {
+        index = counter;
+        counter++;
+        this.stonesInHeaps = stonesInHeaps;
+        updateSumm();
+        win = false;
+    }
+
+    public State(State state) {
+        index = counter;
+        counter++;
+        this.stonesInHeaps = (ArrayList<Integer>) state.getStonesInHeaps().clone();
+        updateSumm();
+        win = false;
+    }
+
+    public State(State state, int player) {
+        this.player = player;
+        index = counter;
+        counter++;
+        this.stonesInHeaps = (ArrayList<Integer>) state.getStonesInHeaps().clone();
+        updateSumm();
+        win = false;
+    }
+
+    public void updateSumm() {
+        int result = 0;
+
+        for (Integer stonesInOneHeap : stonesInHeaps) {
+            result += stonesInOneHeap;
         }
 
-        public State(State state) {
-            this.stonesInHeaps = (ArrayList<Integer>) state.getStonesInHeaps().clone();
-            updateSumm();
-            win = false;
-        }
-
-        public void updateSumm() {
-            int result = 0;
-
-            for (Integer stonesInOneHeap : stonesInHeaps) {
-                result += stonesInOneHeap;
-            }
-
-            summ = result;
-        }
+        summ = result;
+    }
 
         /* TODO: add state in nextStates(int i)
              set state in nextStates(int i)
          */
 
-        public void addNextState(State state) {
-            nextStates.add(state);
-        }
+    public void addNextState(State state) {
+        nextStates.add(state);
+    }
 
-        public void addSomeState(long index, State state){//номер родителя
-            findState(index).addNextState(state);
-        }
+    public void addSomeState(long index, State state){//номер родителя
+        findState(index).addNextState(state);
+    }
+
+
 
         /*public ArrayList<State> categoryTasks(String category){// throws TaskException {//все задания определенной категории(во всей иерархии)
             ArrayList<Task> foundTasks = new ArrayList<>();
@@ -174,110 +189,109 @@ public class Game {
         }*/
 
 
-        public State findState(long index){
-            if (this.index == index)
-                return this;
+    public State findState(long index){
+        if (this.index == index)
+            return this;
 
-            for (State someState : nextStates) {
-                State res = someState.findState(index);
-                if (res != null)
-                    return res;
+        for (State someState : nextStates) {
+            State res = someState.findState(index);
+            if (res != null)
+                return res;
+        }
+
+        return null;
+    }
+
+    public void remove(long id){
+        for(State someState: nextStates){
+            if(someState.index == id){
+                nextStates.remove(someState);
+                return;
+            }
+            else
+                someState.remove(id);
+        }
+    }
+
+    public void printHeaps() {
+        System.out.print("(");
+        int size = stonesInHeaps.size();
+        int i = 0;
+
+        for (Integer heap : stonesInHeaps) {
+            if (i != size - 1) {
+                System.out.print(heap + ", ");
+            } else {
+                System.out.print(heap);
             }
 
-            return null;
+            i++;
         }
 
-        public void remove(long id){
-            for(State someState: nextStates){
-                if(someState.index == id){
-                    nextStates.remove(someState);
-                    return;
-                }
-                else
-                    someState.remove(id);
-            }
-        }
+        System.out.println(")");
+    }
 
-        public void printHeaps() {
-            System.out.print("(");
-            int size = stonesInHeaps.size();
-            int i = 0;
+    public boolean isItWinState() {
+        return win;
+    }
 
-            for (Integer heap : stonesInHeaps) {
-                if (i != size - 1) {
-                    System.out.print(heap + ", ");
-                } else {
-                    System.out.print(heap);
-                }
+    public void setWin() {
+        win = true;
+    }
 
-                i++;
-            }
-
-            System.out.println(")");
-        }
-
-        public boolean isItWinState() {
-            return win;
-        }
-
-        public void setWin() {
-            win = true;
-        }
-
-        public void setHeap(int index, int newCountOfStones) {
-            stonesInHeaps.set(index, newCountOfStones);
-            updateSumm();
-        }
+    public void setHeap(int index, int newCountOfStones) {
+        stonesInHeaps.set(index, newCountOfStones);
+        updateSumm();
+    }
 
 
-        public ArrayList<Integer> getStonesInHeaps() {
-            return stonesInHeaps;
-        }
+    public ArrayList<Integer> getStonesInHeaps() {
+        return stonesInHeaps;
+    }
 
-        public void setStonesInHeaps(ArrayList<Integer> stonesInHeaps) {
-            this.stonesInHeaps = stonesInHeaps;
-            updateSumm();
-        }
+    public void setStonesInHeaps(ArrayList<Integer> stonesInHeaps) {
+        this.stonesInHeaps = stonesInHeaps;
+        updateSumm();
+    }
 
-        public ArrayList<State> getNextStates() {
-            return nextStates;
-        }
+    public ArrayList<State> getNextStates() {
+        return nextStates;
+    }
 
-        public void setNextStates(ArrayList<State> nextStates) {
-            this.nextStates = nextStates;
-        }
+    public void setNextStates(ArrayList<State> nextStates) {
+        this.nextStates = nextStates;
+    }
 
-        public int getSumm() {
-            return summ;
-        }
+    public int getSumm() {
+        return summ;
+    }
 
         /*public void setSumm(int summ) {
             this.summ = summ;
         }*/
 
-        public int getPlayer() {
-            return player;
-        }
+    public int getPlayer() {
+        return player;
+    }
 
-        public void setPlayer(int player) {
-            this.player = player;
-        }
+    public void setPlayer(int player) {
+        this.player = player;
+    }
 
-        public long getStep() {
-            return step;
-        }
+    public long getStep() {
+        return step;
+    }
 
-        public void setStep(long step) {
-            this.step = step;
-        }
+    public void setStep(long step) {
+        this.step = step;
+    }
 
-        public long getIndex() {
-            return index;
-        }
+    public long getIndex() {
+        return index;
+    }
 
-        public void setIndex(int index) {
-            this.index = index;
-        }
+    public void setIndex(int index) {
+        this.index = index;
     }
 }
 

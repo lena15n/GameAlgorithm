@@ -8,11 +8,10 @@ public class Game {
     public final ArrayList<Integer> INITIAL_STONES_IN_HEAPS;
     public final int END_OF_GAME_SUM;
     public final int FIRST_PLAYER;
-    public static int MAX_STATES_COUNT;// if a branch is very long long, other branches can be more than MAX_STATES_COUNT
+    public final int MAX_STATES_COUNT;// if a branch is very long long, other branches can be more than MAX_STATES_COUNT
                                        // as we have winner states without any children 
 
-    private static int countOfStates = 0;//avoid long "+1  +1  +1" branches
-
+    private int countOfStates = 0;//avoid long "+1  +1  +1" branches
     private int winner;
     private State startState;
 
@@ -32,7 +31,7 @@ public class Game {
         winner = -1;
     }
 
-    private static ArrayList<Operation> sort(ArrayList<Operation> operations){
+    private ArrayList<Operation> sort(ArrayList<Operation> operations){//удалить к херам мб, все равно bfs
         Collections.sort(operations,new Comparator<Operation>(){
             public int compare(Operation o1, Operation o2){
                 return o2.compareTo(o1);//по "убыванию"

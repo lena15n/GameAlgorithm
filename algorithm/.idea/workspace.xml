@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="49648a5b-ccae-40e6-a0a1-7ba9278454f1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stonesgame/Game.java" afterPath="$PROJECT_DIR$/src/stonesgame/Game.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stonesgame/Program.java" afterPath="$PROJECT_DIR$/src/stonesgame/Program.java" />
-    </list>
+    <list default="true" id="49648a5b-ccae-40e6-a0a1-7ba9278454f1" name="Default" comment="" />
     <ignored path="algorithm.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -698,7 +694,7 @@
       <workItem from="1461168694673" duration="2574000" />
       <workItem from="1461261514304" duration="605000" />
       <workItem from="1461311347750" duration="89000" />
-      <workItem from="1461369286886" duration="17362000" />
+      <workItem from="1461369286886" duration="17960000" />
     </task>
     <task id="LOCAL-00001" summary="test idea+git">
       <created>1460483492342</created>
@@ -710,7 +706,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57429000" />
+    <option name="totallyTimeSpent" value="58027000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />

@@ -11,8 +11,8 @@ public class Game {
     public final int FIRST_PLAYER;
 
     private int winner;
-    private State currentState;//current StonesInHeaps
-    private int currentPlayer;
+    private State startState;
+    private static int i = 0;
 
 
     public Game(int countOfPlayers, ArrayList<Operation> operations, ArrayList<Integer> stonesInHeaps, int endOfGameSum,
@@ -23,45 +23,42 @@ public class Game {
         this.END_OF_GAME_SUM = endOfGameSum;
         this.FIRST_PLAYER = firstGamer;
 
-        this.currentState = new State((ArrayList<Integer>) INITIAL_STONES_IN_HEAPS.clone());
-        currentState.setStep(0);//вершина дерева игры, номер сделанного хода
-        currentPlayer = FIRST_PLAYER;
+        this.startState = new State((ArrayList<Integer>) INITIAL_STONES_IN_HEAPS.clone());
+        startState.setStep(0);//вершина дерева игры, номер сделанного хода
+        startState.setPlayer(FIRST_PLAYER);
         winner = -1;
     }
 
 
     public void start() {
-        currentState.setNextStates(calculateAllPossibleStatesOnIter(currentState));
-
-        ArrayList<State> states = currentState.getNextStates();
-
-        for (State state : states) {
-            buildGameTreeBranch(state);
-        }
-
+        buildGameTreeBranch(startState);
         /*//win in every possible state
         if (winStatesCounter == (INITIAL_STONES_IN_HEAPS.size() * OPERATIONS.size())) {
             winner = 100;//идет присвоение победителя
         }*/
 
+        //findWinner();
+
+        System.out.println("\n\n--end creating--\n\n");
+
     }
 
-    private void buildGameTreeBranch(State startState) {
-        if (startState.isItWinState()) {
-            startState.setNextStates(calculateAllPossibleStatesOnIter(startState));
+    private void buildGameTreeBranch(State currentState) {
+        i++;
+        if(i > 100) return;
+        if (!currentState.isItWinState()) {
+            currentState.setNextStates(calculateAllPossibleStatesOnIter(currentState));
 
-            ArrayList<State> states = startState.getNextStates();
+            ArrayList<State> states = currentState.getNextStates();
 
             for (State state : states) {
-                buildGameTreeBranch(startState);
+                buildGameTreeBranch(state);
             }
         }
     }
 
-    public ArrayList<State> calculateAllPossibleStatesOnIter(State startState) {
+    public ArrayList<State> calculateAllPossibleStatesOnIter(State currentState) {
         ArrayList<State> possibleStates = new ArrayList<>();
-        State possibleState = new State(startState, currentPlayer);
-
 
         System.out.print("Current state is: ");
         currentState.printHeaps();
@@ -75,7 +72,8 @@ public class Game {
             ArrayList<Integer> currentStonesInHeaps = currentState.getStonesInHeaps();
             int i = 0;
 
-            for (Integer stonesOfOneHeap : currentStonesInHeaps) {//(int i = 0; i < currentState.size(); i++){
+            for (Integer stonesOfOneHeap : currentStonesInHeaps) {//(int i = 0; i < startState.size(); i++){
+                State possibleState = new State(currentState);
                 possibleState.setHeap(i, operation.apply(stonesOfOneHeap));
 
                 if (possibleState.getSumm() > END_OF_GAME_SUM) {
@@ -91,13 +89,13 @@ public class Game {
                     possibleState.printHeaps();
                 }
 
-                //clear temp state
-                possibleState.setHeap(i, stonesOfOneHeap);
                 i++;
             }
 
-            System.out.println("_____________");
+            System.out.println("--------------");
         }
+
+        System.out.println("______________________________");
 
         return possibleStates;
     }
@@ -106,13 +104,6 @@ public class Game {
     public int getWinner() {
         return winner;
     }
-
-    public int getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-
-
 }
 
 class State {
@@ -131,6 +122,7 @@ class State {
         this.stonesInHeaps = stonesInHeaps;
         updateSumm();
         win = false;
+        player = -1;
     }
 
     public State(State state) {
@@ -138,17 +130,12 @@ class State {
         counter++;
         this.stonesInHeaps = (ArrayList<Integer>) state.getStonesInHeaps().clone();
         updateSumm();
+        player =  ((state.getPlayer() == 0) ? 1 : 0);//противоположный игрок теперь
+        step = state.getStep() + 1;
         win = false;
     }
 
-    public State(State state, int player) {
-        this.player = player;
-        index = counter;
-        counter++;
-        this.stonesInHeaps = (ArrayList<Integer>) state.getStonesInHeaps().clone();
-        updateSumm();
-        win = false;
-    }
+
 
     public void updateSumm() {
         int result = 0;

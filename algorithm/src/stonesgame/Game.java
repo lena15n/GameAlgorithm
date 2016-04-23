@@ -55,16 +55,6 @@ public class Game {
 
 
     public void start() {
-        /*q.enqueue(root);        // корень в очередь
-        while (! q.empty) {
-            x = q.dequeue();
-            visit x;              // посетить x
-            if (! x.left.empty)   // x.left - левое поддерево
-                q.enqueue(x.left);
-            if (! x.right.empty)  // x.right - правое поддерево
-                q.enqueue(x.right);
-        }*/
-
         ArrayDeque<State> queue = new ArrayDeque<>();
         queue.add(startState);
         buildGameTreeBranch(queue);
@@ -77,7 +67,6 @@ public class Game {
         //findWinner();
 
         System.out.println("\n\n--end creating--\n\n");
-
     }
 
     private void buildGameTreeBranch(ArrayDeque<State> queue) {

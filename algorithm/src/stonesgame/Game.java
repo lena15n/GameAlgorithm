@@ -1,24 +1,29 @@
 package stonesgame;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Game {
     public final int COUNT_OF_PLAYERS;
     public final ArrayList<Operation> OPERATIONS;
     public final ArrayList<Integer> INITIAL_STONES_IN_HEAPS;
-
     public final int END_OF_GAME_SUM;
     public final int FIRST_PLAYER;
+    public static final int MAX_BRANCH_LENGTH = 1000;
+
+    private static int branchLength = 0;//avoid long "+1  +1  +1" branches
 
     private int winner;
     private State startState;
-    private static int i = 0;
+
 
 
     public Game(int countOfPlayers, ArrayList<Operation> operations, ArrayList<Integer> stonesInHeaps, int endOfGameSum,
                 int firstGamer) {
         this.COUNT_OF_PLAYERS = countOfPlayers;
-        this.OPERATIONS = operations;
+        this.OPERATIONS = sort(operations);
         this.INITIAL_STONES_IN_HEAPS = stonesInHeaps;
         this.END_OF_GAME_SUM = endOfGameSum;
         this.FIRST_PLAYER = firstGamer;
@@ -29,9 +34,27 @@ public class Game {
         winner = -1;
     }
 
+    private ArrayList<Operation> sort(ArrayList<Operation> operations){
+        Collections.sort(operations,new Comparator<Operation>(){
+            public int compare(Operation o1, Operation o2){
+                return o2.compareTo(o1);//по "убыванию"
+            }});
+
+        return operations;
+    }
+
 
     public void start() {
-        buildGameTreeBranch(startState);
+        if (!startState.isItWinState()) {
+            startState.setNextStates(calculateAllPossibleStatesOnIter(startState));
+
+            ArrayList<State> states = startState.getNextStates();
+
+            for (State state : states) {
+                branchLength = 0;
+                buildGameTreeBranch(state);
+            }
+        }
         /*//win in every possible state
         if (winStatesCounter == (INITIAL_STONES_IN_HEAPS.size() * OPERATIONS.size())) {
             winner = 100;//идет присвоение победителя
@@ -44,8 +67,9 @@ public class Game {
     }
 
     private void buildGameTreeBranch(State currentState) {
-        i++;
-        if(i > 100) return;
+        if(branchLength >= MAX_BRANCH_LENGTH) return;
+        branchLength++;
+
         if (!currentState.isItWinState()) {
             currentState.setNextStates(calculateAllPossibleStatesOnIter(currentState));
 
@@ -55,6 +79,8 @@ public class Game {
                 buildGameTreeBranch(state);
             }
         }
+
+
     }
 
     public ArrayList<State> calculateAllPossibleStatesOnIter(State currentState) {
@@ -72,7 +98,7 @@ public class Game {
             ArrayList<Integer> currentStonesInHeaps = currentState.getStonesInHeaps();
             int i = 0;
 
-            for (Integer stonesOfOneHeap : currentStonesInHeaps) {//(int i = 0; i < startState.size(); i++){
+            for (Integer stonesOfOneHeap : currentStonesInHeaps) {//(int branchLength = 0; branchLength < startState.size(); branchLength++){
                 State possibleState = new State(currentState);
                 possibleState.setHeap(i, operation.apply(stonesOfOneHeap));
 
@@ -147,19 +173,37 @@ class State {
         summ = result;
     }
 
-        /* TODO: add state in nextStates(int i)
-             set state in nextStates(int i)
-         */
+    public void printHeaps() {
+        System.out.print("(");
+        int size = stonesInHeaps.size();
+        int i = 0;
+
+        for (Integer heap : stonesInHeaps) {
+            if (i != size - 1) {
+                System.out.print(heap + ", ");
+            } else {
+                System.out.print(heap);
+            }
+
+            i++;
+        }
+
+        System.out.println(")");
+    }
+
+
+
+    /*   ARE NEVER USED
+
 
     public void addNextState(State state) {
         nextStates.add(state);
     }
 
     public void addSomeState(long index, State state){//номер родителя
+
         findState(index).addNextState(state);
     }
-
-
 
         /*public ArrayList<State> categoryTasks(String category){// throws TaskException {//все задания определенной категории(во всей иерархии)
             ArrayList<Task> foundTasks = new ArrayList<>();
@@ -173,8 +217,7 @@ class State {
             return foundTasks;
             // TaskException("Заданий с таким именем нет ни в одном дереве!");
 
-        }*/
-
+        }
 
     public State findState(long index){
         if (this.index == index)
@@ -198,25 +241,8 @@ class State {
             else
                 someState.remove(id);
         }
-    }
+    }*/
 
-    public void printHeaps() {
-        System.out.print("(");
-        int size = stonesInHeaps.size();
-        int i = 0;
-
-        for (Integer heap : stonesInHeaps) {
-            if (i != size - 1) {
-                System.out.print(heap + ", ");
-            } else {
-                System.out.print(heap);
-            }
-
-            i++;
-        }
-
-        System.out.println(")");
-    }
 
     public boolean isItWinState() {
         return win;
@@ -282,7 +308,7 @@ class State {
     }
 }
 
-class Operation {
+class Operation implements Comparable<Operation>{
     private final int x;
     private final char operator;
 
@@ -308,7 +334,31 @@ class Operation {
     public void print() {
         System.out.println("" + operator + x);
     }
+
+    @Override
+    public int compareTo(Operation o) {
+        if (operator == '+'){
+            if(o.operator == '+'){
+                return x - o.x;
+            }
+            else {
+                return -1; // условно '+' < '*'
+            }
+        }
+        else if (operator == '*'){
+            if(o.operator == '*'){
+                return x - o.x;
+            }
+            else {
+                return 1; // условно '*' > '+'
+            }
+        }
+
+        throw new IllegalArgumentException();
+    }
 }
+
+
 
 /*enum Unit {
     KILOMETER {

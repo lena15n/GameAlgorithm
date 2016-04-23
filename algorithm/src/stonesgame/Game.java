@@ -1,9 +1,6 @@
 package stonesgame;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 public class Game {
     public final int COUNT_OF_PLAYERS;
@@ -11,9 +8,10 @@ public class Game {
     public final ArrayList<Integer> INITIAL_STONES_IN_HEAPS;
     public final int END_OF_GAME_SUM;
     public final int FIRST_PLAYER;
-    public static final int MAX_BRANCH_LENGTH = 1000;
+    public static int MAX_STATES_COUNT;// if a branch is very long long, other branches can be more than MAX_STATES_COUNT
+                                       // as we have winner states without any children 
 
-    private static int branchLength = 0;//avoid long "+1  +1  +1" branches
+    private static int countOfStates = 0;//avoid long "+1  +1  +1" branches
 
     private int winner;
     private State startState;
@@ -21,20 +19,20 @@ public class Game {
 
 
     public Game(int countOfPlayers, ArrayList<Operation> operations, ArrayList<Integer> stonesInHeaps, int endOfGameSum,
-                int firstGamer) {
+                int firstGamer, int maxDepth) {
         this.COUNT_OF_PLAYERS = countOfPlayers;
         this.OPERATIONS = sort(operations);
         this.INITIAL_STONES_IN_HEAPS = stonesInHeaps;
         this.END_OF_GAME_SUM = endOfGameSum;
         this.FIRST_PLAYER = firstGamer;
-
+        this.MAX_STATES_COUNT = findMaxCountOfStates(maxDepth);
         this.startState = new State((ArrayList<Integer>) INITIAL_STONES_IN_HEAPS.clone());
         startState.setStep(0);//вершина дерева игры, номер сделанного хода
         startState.setPlayer(FIRST_PLAYER);
         winner = -1;
     }
 
-    private ArrayList<Operation> sort(ArrayList<Operation> operations){
+    private static ArrayList<Operation> sort(ArrayList<Operation> operations){
         Collections.sort(operations,new Comparator<Operation>(){
             public int compare(Operation o1, Operation o2){
                 return o2.compareTo(o1);//по "убыванию"
@@ -43,18 +41,34 @@ public class Game {
         return operations;
     }
 
+    private int findMaxCountOfStates(int depth){
+        int heapsCount = INITIAL_STONES_IN_HEAPS.size();
+        int operationsCount = OPERATIONS.size();
+        int maxStatesCount = 0;
+
+        for(int i = 0; i <= depth; i++){
+            maxStatesCount += Math.pow(heapsCount * operationsCount, i);
+        }
+
+        return maxStatesCount;
+    }
+
 
     public void start() {
-        if (!startState.isItWinState()) {
-            startState.setNextStates(calculateAllPossibleStatesOnIter(startState));
+        /*q.enqueue(root);        // корень в очередь
+        while (! q.empty) {
+            x = q.dequeue();
+            visit x;              // посетить x
+            if (! x.left.empty)   // x.left - левое поддерево
+                q.enqueue(x.left);
+            if (! x.right.empty)  // x.right - правое поддерево
+                q.enqueue(x.right);
+        }*/
 
-            ArrayList<State> states = startState.getNextStates();
+        ArrayDeque<State> queue = new ArrayDeque<>();
+        queue.add(startState);
+        buildGameTreeBranch(queue);
 
-            for (State state : states) {
-                branchLength = 0;
-                buildGameTreeBranch(state);
-            }
-        }
         /*//win in every possible state
         if (winStatesCounter == (INITIAL_STONES_IN_HEAPS.size() * OPERATIONS.size())) {
             winner = 100;//идет присвоение победителя
@@ -66,20 +80,28 @@ public class Game {
 
     }
 
-    private void buildGameTreeBranch(State currentState) {
-        if(branchLength >= MAX_BRANCH_LENGTH) return;
-        branchLength++;
-
-        if (!currentState.isItWinState()) {
-            currentState.setNextStates(calculateAllPossibleStatesOnIter(currentState));
-
-            ArrayList<State> states = currentState.getNextStates();
-
-            for (State state : states) {
-                buildGameTreeBranch(state);
-            }
+    private void buildGameTreeBranch(ArrayDeque<State> queue) {
+        if(countOfStates >= MAX_STATES_COUNT) {
+            return;
         }
 
+        countOfStates++;
+
+        if (!queue.isEmpty()) {
+            State currentState = queue.remove();
+
+            if (!currentState.isItWinState()) {
+                currentState.setNextStates(calculateAllPossibleStatesOnIter(currentState));
+
+                ArrayList<State> states = currentState.getNextStates();
+
+                for (State state : states) {
+                    queue.add(state);
+                }
+            }
+
+            buildGameTreeBranch(queue);
+        }
 
     }
 
@@ -98,7 +120,7 @@ public class Game {
             ArrayList<Integer> currentStonesInHeaps = currentState.getStonesInHeaps();
             int i = 0;
 
-            for (Integer stonesOfOneHeap : currentStonesInHeaps) {//(int branchLength = 0; branchLength < startState.size(); branchLength++){
+            for (Integer stonesOfOneHeap : currentStonesInHeaps) {//(int countOfStates = 0; countOfStates < startState.size(); countOfStates++){
                 State possibleState = new State(currentState);
                 possibleState.setHeap(i, operation.apply(stonesOfOneHeap));
 

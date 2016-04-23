@@ -15,6 +15,7 @@ public class Program {
         ArrayList<Integer> stonesInHeaps = new ArrayList<>();
         int endSum = 0;
         int firstPlayer = 0;
+        int maxDepth = 2;
 
 
         switch(numOfGame){
@@ -58,7 +59,7 @@ public class Program {
             break;
         }
 
-        Game game = new Game(countOfPlayers, operations, stonesInHeaps, endSum, firstPlayer);
+        Game game = new Game(countOfPlayers, operations, stonesInHeaps, endSum, firstPlayer, maxDepth);
         game.start();
     }
 }

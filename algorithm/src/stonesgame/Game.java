@@ -8,10 +8,10 @@ public class Game {
     public final ArrayList<Integer> INITIAL_STONES_IN_HEAPS;
     public final int END_OF_GAME_SUM;
     public final int FIRST_PLAYER;
-    public final int MAX_STATES_COUNT;// if a branch is very long long, other branches can be more than MAX_STATES_COUNT
-                                       // as we have winner states without any children 
 
-    private int countOfStates = 0;//avoid long "+1  +1  +1" branches
+    private final int MAX_DEPTH;
+
+
     private int winner;
     private State startState;
 
@@ -24,7 +24,7 @@ public class Game {
         this.INITIAL_STONES_IN_HEAPS = stonesInHeaps;
         this.END_OF_GAME_SUM = endOfGameSum;
         this.FIRST_PLAYER = firstGamer;
-        this.MAX_STATES_COUNT = findMaxCountOfStates(maxDepth);
+        this.MAX_DEPTH = maxDepth;
         this.startState = new State((ArrayList<Integer>) INITIAL_STONES_IN_HEAPS.clone());
         startState.setStep(0);//вершина дерева игры, номер сделанного хода
         startState.setPlayer(FIRST_PLAYER);
@@ -40,23 +40,17 @@ public class Game {
         return operations;
     }
 
-    private int findMaxCountOfStates(int depth){
-        int heapsCount = INITIAL_STONES_IN_HEAPS.size();
-        int operationsCount = OPERATIONS.size();
-        int maxStatesCount = 0;
-
-        for(int i = 0; i <= depth; i++){
-            maxStatesCount += Math.pow(heapsCount * operationsCount, i);
-        }
-
-        return maxStatesCount;
-    }
-
-
     public void start() {
         ArrayDeque<State> queue = new ArrayDeque<>();
         queue.add(startState);
         buildGameTreeBranch(queue);
+        //TODO:
+        // findWinner(),
+        // findWinSolution() -> save operation in state when build tree branch
+
+
+
+
 
         /*//win in every possible state
         if (winStatesCounter == (INITIAL_STONES_IN_HEAPS.size() * OPERATIONS.size())) {
@@ -69,14 +63,11 @@ public class Game {
     }
 
     private void buildGameTreeBranch(ArrayDeque<State> queue) {
-        if(countOfStates >= MAX_STATES_COUNT) {
-            return;
-        }
-
-        countOfStates++;
-
         if (!queue.isEmpty()) {
             State currentState = queue.remove();
+            if (currentState.getStep() >= MAX_DEPTH){
+                return;
+            }
 
             if (!currentState.isItWinState()) {
                 currentState.setNextStates(calculateAllPossibleStatesOnIter(currentState));
@@ -109,7 +100,7 @@ public class Game {
             int i = 0;
 
             for (Integer stonesOfOneHeap : currentStonesInHeaps) {//(int countOfStates = 0; countOfStates < startState.size(); countOfStates++){
-                State possibleState = new State(currentState);
+                State possibleState = new State(currentState, operation);
                 possibleState.setHeap(i, operation.apply(stonesOfOneHeap));
 
                 if (possibleState.getSumm() > END_OF_GAME_SUM) {
@@ -151,6 +142,7 @@ class State {
     private int player;//сделавший данный ход - тот, кто получил такое состояние, а не тот, кто только начнет ходить
     private int summ;//сумма всех камней в кучах
     private ArrayList<State> nextStates;//то, почему Ход/State - дерево
+    private Operation operation;
 
     public State(ArrayList<Integer> stonesInHeaps) {
         index = counter;
@@ -161,7 +153,7 @@ class State {
         player = -1;
     }
 
-    public State(State state) {
+    public State(State state, Operation operation) {
         index = counter;
         counter++;
         this.stonesInHeaps = (ArrayList<Integer>) state.getStonesInHeaps().clone();
@@ -169,6 +161,7 @@ class State {
         player =  ((state.getPlayer() == 0) ? 1 : 0);//противоположный игрок теперь
         step = state.getStep() + 1;
         win = false;
+        this.operation = operation;
     }
 
 
@@ -315,6 +308,14 @@ class State {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public void setOperation(Operation operation) {
+        this.operation = operation;
     }
 }
 

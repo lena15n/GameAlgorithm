@@ -8,9 +8,7 @@ public class Game {
     public final ArrayList<Integer> INITIAL_STONES_IN_HEAPS;
     public final int END_OF_GAME_SUM;
     public final int FIRST_PLAYER;
-
-    private final int MAX_DEPTH;
-
+    public final int MAX_DEPTH;
 
     private int winner;
     private State startState;
@@ -31,7 +29,7 @@ public class Game {
         winner = -1;
     }
 
-    private ArrayList<Operation> sort(ArrayList<Operation> operations){//удалить к херам мб, все равно bfs
+    private ArrayList<Operation> sort(ArrayList<Operation> operations){//удалить к херам мб
         Collections.sort(operations,new Comparator<Operation>(){
             public int compare(Operation o1, Operation o2){
                 return o2.compareTo(o1);//по "убыванию"
@@ -44,26 +42,14 @@ public class Game {
         ArrayDeque<State> queue = new ArrayDeque<>();
         queue.add(startState);
         buildGameTreeBranch(queue);
-        //TODO:
-        // findWinner(),
-        // findWinSolution() -> save operation in state when build tree branch
 
-
-
-
-
-        /*//win in every possible state
-        if (winStatesCounter == (INITIAL_STONES_IN_HEAPS.size() * OPERATIONS.size())) {
-            winner = 100;//идет присвоение победителя
-        }*/
-
-        //findWinner();
+        findWinSolutionAndWinner();
 
         System.out.println("\n\n--end creating--\n\n");
     }
 
     private void buildGameTreeBranch(ArrayDeque<State> queue) {
-        if (!queue.isEmpty()) {
+        if (!queue.isEmpty()) {//можно и без очереди, просто контроль по step
             State currentState = queue.remove();
             if (currentState.getStep() >= MAX_DEPTH){
                 return;
@@ -127,6 +113,62 @@ public class Game {
         return possibleStates;
     }
 
+    private void findWinSolutionAndWinner(){
+       // int player = 0;
+        ArrayList<State> leadStates = new ArrayList<>();
+
+        findSituation(startState, leadStates);
+
+
+
+
+        /*//win in every possible state
+            winner = 100;//идет присвоение победителя
+        }*/
+    }
+
+    private void findSituation(State currentState, ArrayList<State> leadStates){
+        //TODO: переписать, т к это просто перебор вершин и очень долго
+        // проверить, что длина ветки более трех
+        // проверять, что состояния не листья
+
+        ArrayList<State> states = currentState.getNextStates();
+        int opponentLosses = 0;
+
+        for(State state : states){
+            if (!state.isItWinState()){
+                opponentLosses++;
+            }
+        }
+
+        if (opponentLosses == states.size()){//каждый ход противника НЕ приводит его к победе
+           int winStatesCount = 0;
+
+           for (State state : states){
+               ArrayList<State> nextStates = state.getNextStates();
+               int localWinStateCount = 0;
+
+               for (State childState : nextStates){
+                   if (childState.isItWinState()){
+                       localWinStateCount++;
+                   }
+               }
+
+               if (localWinStateCount > 0){
+                    winStatesCount++;
+               }
+           }
+
+            if (winStatesCount == states.size()){
+                leadStates.add(currentState);
+            }
+        }
+
+        for (State state : states){
+            findSituation(state, leadStates);
+        }
+    }
+
 
     public int getWinner() {
         return winner;
@@ -141,6 +183,7 @@ class State {
     private boolean win;
     private int player;//сделавший данный ход - тот, кто получил такое состояние, а не тот, кто только начнет ходить
     private int summ;//сумма всех камней в кучах
+    private State prevState;
     private ArrayList<State> nextStates;//то, почему Ход/State - дерево
     private Operation operation;
 
@@ -151,6 +194,7 @@ class State {
         updateSumm();
         win = false;
         player = -1;
+        prevState = null;
     }
 
     public State(State state, Operation operation) {
@@ -162,6 +206,7 @@ class State {
         step = state.getStep() + 1;
         win = false;
         this.operation = operation;
+        this.prevState = state.getPrevState();
     }
 
 
@@ -282,10 +327,6 @@ class State {
         return summ;
     }
 
-        /*public void setSumm(int summ) {
-            this.summ = summ;
-        }*/
-
     public int getPlayer() {
         return player;
     }
@@ -316,6 +357,14 @@ class State {
 
     public void setOperation(Operation operation) {
         this.operation = operation;
+    }
+
+    public State getPrevState() {
+        return prevState;
+    }
+
+    public void setPrevState(State prevState) {
+        this.prevState = prevState;
     }
 }
 
@@ -368,45 +417,3 @@ class Operation implements Comparable<Operation>{
         throw new IllegalArgumentException();
     }
 }
-
-
-
-/*enum Unit {
-    KILOMETER {
-        public double getLength() { return 1000; }
-    },
-    METER {
-        public double getLength() { return 1; }
-    },
-    MILLIMETER {
-        public double getLength() { return 0.001; }
-    };
-    public abstract double getLength();
-}
-
-enum BinaryOperation {
-
-    Plus  {
-        public int calculateAllPossibleStatesOnIter(int a, int b){
-            return a + b;
-        }
-    },
-    Minus {
-        public int calculateAllPossibleStatesOnIter(int a, int b){
-            return a - b;
-        }
-    },
-    Division()  {
-        public int calculateAllPossibleStatesOnIter(int a, int b){
-            return a / b;
-        }
-    },
-    Times()  {
-        public int calculateAllPossibleStatesOnIter(int a, int b){
-            return a * b;
-        }
-    };
-
-    abstract public int calculateAllPossibleStatesOnIter(int a, int b);
-}*/
-

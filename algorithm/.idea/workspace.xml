@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="49648a5b-ccae-40e6-a0a1-7ba9278454f1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stonesgame/Game.java" afterPath="$PROJECT_DIR$/src/stonesgame/Game.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/stonesgame/Program.java" afterPath="$PROJECT_DIR$/src/stonesgame/Program.java" />
     </list>
     <ignored path="algorithm.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,7 +30,7 @@
         <entry file="file://$PROJECT_DIR$/src/stonesgame/Program.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="61" column="25" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="25" />
+              <caret line="17" column="39" selection-start-line="17" selection-start-column="39" selection-end-line="17" selection-end-column="39" />
               <folding />
             </state>
           </provider>
@@ -39,8 +39,8 @@
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/stonesgame/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.036637932">
-              <caret line="71" column="47" selection-start-line="71" selection-start-column="47" selection-end-line="71" selection-end-column="47" />
+            <state vertical-scroll-proportion="0.047413792">
+              <caret line="130" column="71" selection-start-line="130" selection-start-column="71" selection-end-line="130" selection-end-column="71" />
               <folding />
             </state>
           </provider>
@@ -670,7 +670,7 @@
       <workItem from="1461311347750" duration="89000" />
       <workItem from="1461369286886" duration="17960000" />
       <workItem from="1461421615199" duration="1184000" />
-      <workItem from="1461483592992" duration="1317000" />
+      <workItem from="1461483592992" duration="7633000" />
     </task>
     <task id="LOCAL-00001" summary="test idea+git">
       <created>1460483492342</created>
@@ -682,7 +682,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="60528000" />
+    <option name="totallyTimeSpent" value="66844000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -735,7 +735,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/stonesgame/Game.java</url>
-          <line>61</line>
+          <line>47</line>
           <properties />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
@@ -960,15 +960,15 @@
     <entry file="file://$PROJECT_DIR$/src/stonesgame/Program.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="25" selection-start-line="61" selection-start-column="25" selection-end-line="61" selection-end-column="25" />
+          <caret line="17" column="39" selection-start-line="17" selection-start-column="39" selection-end-line="17" selection-end-column="39" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stonesgame/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.036637932">
-          <caret line="71" column="47" selection-start-line="71" selection-start-column="47" selection-end-line="71" selection-end-column="47" />
+        <state vertical-scroll-proportion="0.047413792">
+          <caret line="130" column="71" selection-start-line="130" selection-start-column="71" selection-end-line="130" selection-end-column="71" />
           <folding />
         </state>
       </provider>

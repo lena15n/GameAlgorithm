@@ -15,7 +15,7 @@ public class Program {
         ArrayList<Integer> stonesInHeaps = new ArrayList<>();
         int endSum = 0;
         int firstPlayer = 0;
-        int maxDepth = 30;// максимальная пока - 8, надо до 30 вроде
+        int maxDepth = 30;// надо до 30 вроде
 
 
         switch(numOfGame){

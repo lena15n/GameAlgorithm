@@ -54,9 +54,9 @@ public class Game {
     private void buildGameTreeBranch(ArrayDeque<State> queue) {
         if (!queue.isEmpty()) {//можно и без очереди, просто контроль по step
             State currentState = queue.remove();
-            if (currentState.getStep() >= MAX_DEPTH){
+            /*if (currentState.getStep() >= MAX_DEPTH){//шоб было на всякий случай
                 return;
-            }
+            }*/
 
             if (!currentState.isItWinState()) {
                 currentState.setNextStates(calculateAllPossibleStatesOnIter(currentState));
@@ -126,7 +126,7 @@ public class Game {
     private void findWinSolutionAndWinner(){
         HashSet<State> leadStates = new HashSet<>();
 
-        findSituation(startState, leadStates);
+        isPlayerIsWinner(startState, 0);// мб не 0 игрок
 
 
 
@@ -136,23 +136,35 @@ public class Game {
         }*/
     }
 
-    private void findSituation(State currentState, HashSet<State> leadStates){
-        //TODO: переписать,
+    private boolean isPlayerIsWinner(State currentState, int player){//запуск из корня или хода 2-4-6 игрока, ищем победу 1-3-5 игрока
+        //TODO: ПЕРЕПИСАТЬ,
         // проверить, что длина ветки более трех
         // проверять, что состояния не листья
-
+        int count = 0;
         ArrayList<State> states = currentState.getNextStates();
 
-        for (State state : states){
-            if (state.isItWinState()){//дописать для случая когда победа на 0-1 ходах
-                State rootState = state.getPrevState().getPrevState();
-               /* if () {
-                    check(rootState, leadStates);
-                }*/
+        if (currentState.getPlayer() != player) {
+            for (State state : states) {
+                if (state.isItWinState()) {//дописать для случая когда победа на 0-1 ходах
+                    count++;
+                } else {
+                    if (isPlayerIsWinner(state, player)){
+                        count++;
+                    }
+                }
             }
-
-            findSituation(state, leadStates);
         }
+        else {
+            for (State state : states) {
+                if (isPlayerIsWinner(state, player)) {
+                    count++;
+                }
+            }
+        }
+
+
+        return count == states.size();
+
 
 
 
@@ -189,7 +201,7 @@ public class Game {
         }
 
         for (State state : states){
-            findSituation(state, leadStates);
+            isPlayerIsWinner(state, leadStates);
         }*/
     }
 

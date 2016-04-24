@@ -10,6 +10,8 @@ public class Game {
     public final int FIRST_PLAYER;
     public final int MAX_DEPTH;
 
+    private final int COUNT_OF_BRANCHES;
+
     private int winner;
     private State startState;
 
@@ -27,6 +29,7 @@ public class Game {
         startState.setStep(0);//вершина дерева игры, номер сделанного хода
         startState.setPlayer(FIRST_PLAYER);
         winner = -1;
+        COUNT_OF_BRANCHES = INITIAL_STONES_IN_HEAPS.size() * OPERATIONS.size();
     }
 
     private ArrayList<Operation> sort(ArrayList<Operation> operations){//удалить к херам мб
@@ -43,7 +46,7 @@ public class Game {
         queue.add(startState);
         buildGameTreeBranch(queue);
 
-        findWinSolutionAndWinner();
+       // findWinSolutionAndWinner();
 
         System.out.println("\n\n--end creating--\n\n");
     }
@@ -70,28 +73,30 @@ public class Game {
 
     }
 
-    public ArrayList<State> calculateAllPossibleStatesOnIter(State currentState) {
+    private ArrayList<State> calculateAllPossibleStatesOnIter(State currentState) {
         ArrayList<State> possibleStates = new ArrayList<>();
 
         System.out.print("Current state is: ");
         currentState.printHeaps();
         System.out.println();
 
+        ArrayList<State> winStates = new ArrayList<>();
 
         for (Operation operation : OPERATIONS) {
             System.out.print("Operation: ");
             operation.print();
 
             ArrayList<Integer> currentStonesInHeaps = currentState.getStonesInHeaps();
-            int i = 0;
+            int heapNum = 0;
 
-            for (Integer stonesOfOneHeap : currentStonesInHeaps) {//(int countOfStates = 0; countOfStates < startState.size(); countOfStates++){
+            for (Integer stonesOfOneHeap : currentStonesInHeaps) {
                 State possibleState = new State(currentState, operation);
-                possibleState.setHeap(i, operation.apply(stonesOfOneHeap));
+                possibleState.setHeap(heapNum, operation.apply(stonesOfOneHeap));
 
-                if (possibleState.getSumm() > END_OF_GAME_SUM) {
+                if (possibleState.getSumm() >= END_OF_GAME_SUM) {
                     possibleState.setWin();
                     possibleStates.add(possibleState);
+                    winStates.add(possibleState);
 
                     System.out.print("Winner state! -> ");
                     possibleState.printHeaps();
@@ -102,11 +107,16 @@ public class Game {
                     possibleState.printHeaps();
                 }
 
-                i++;
+                heapNum++;
             }
 
             System.out.println("--------------");
         }
+
+        if (winStates.size() > 0) {
+            possibleStates.retainAll(winStates);
+        }
+
 
         System.out.println("______________________________");
 
@@ -114,8 +124,7 @@ public class Game {
     }
 
     private void findWinSolutionAndWinner(){
-       // int player = 0;
-        ArrayList<State> leadStates = new ArrayList<>();
+        HashSet<State> leadStates = new HashSet<>();
 
         findSituation(startState, leadStates);
 
@@ -127,12 +136,27 @@ public class Game {
         }*/
     }
 
-    private void findSituation(State currentState, ArrayList<State> leadStates){
-        //TODO: переписать, т к это просто перебор вершин и очень долго
+    private void findSituation(State currentState, HashSet<State> leadStates){
+        //TODO: переписать,
         // проверить, что длина ветки более трех
         // проверять, что состояния не листья
 
         ArrayList<State> states = currentState.getNextStates();
+
+        for (State state : states){
+            if (state.isItWinState()){//дописать для случая когда победа на 0-1 ходах
+                State rootState = state.getPrevState().getPrevState();
+               /* if () {
+                    check(rootState, leadStates);
+                }*/
+            }
+
+            findSituation(state, leadStates);
+        }
+
+
+
+        /*ArrayList<State> states = currentState.getNextStates();
         int opponentLosses = 0;
 
         for(State state : states){
@@ -166,9 +190,43 @@ public class Game {
 
         for (State state : states){
             findSituation(state, leadStates);
-        }
+        }*/
     }
 
+    private void check(State currentState, HashSet<State> leadStates){
+        ArrayList<State> opponentStates = currentState.getNextStates();
+        int opponentLosses = 0;
+
+        for(State state : opponentStates){
+            if (!state.isItWinState()){
+                opponentLosses++;
+            }
+        }
+
+        if (opponentLosses == opponentStates.size()) {//каждый ход противника НЕ приводит его к победе
+            int winStatesCount = 0;
+
+            for (State state : opponentStates) {
+                ArrayList<State> nextStates = state.getNextStates();
+                int localWinStateCount = 0;
+
+                for (State childState : nextStates) {
+                    if (childState.isItWinState()) {
+                        localWinStateCount++;
+                    }
+                    //рекурсия поиска winstate
+                }
+
+                if (localWinStateCount > 0) {
+                    winStatesCount++;
+                }
+            }
+
+            if (winStatesCount == opponentStates.size()) {
+                leadStates.add(currentState);
+            }
+        }
+    }
 
     public int getWinner() {
         return winner;

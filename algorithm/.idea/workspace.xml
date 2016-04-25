@@ -31,7 +31,7 @@
         <entry file="file://$PROJECT_DIR$/src/stonesgame/Program.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="61" column="101" selection-start-line="61" selection-start-column="93" selection-end-line="61" selection-end-column="101" />
+              <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -40,10 +40,12 @@
       <file leaf-file-name="Game.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/stonesgame/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.12007169">
-              <caret line="139" column="26" selection-start-line="139" selection-start-column="26" selection-end-line="139" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.49056605">
+              <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
               <folding>
-                <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+                <element signature="e#12197#12198#0" expanded="true" />
+                <element signature="e#12230#12231#0" expanded="true" />
+                <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
               </folding>
             </state>
           </provider>
@@ -74,8 +76,8 @@
         <option value="$PROJECT_DIR$/src/stonesgame/Turn.java" />
         <option value="$PROJECT_DIR$/src/stonesgame/State.java" />
         <option value="$PROJECT_DIR$/src/stonesgame/OperationsComparator.java" />
-        <option value="$PROJECT_DIR$/src/stonesgame/Program.java" />
         <option value="$PROJECT_DIR$/src/stonesgame/Game.java" />
+        <option value="$PROJECT_DIR$/src/stonesgame/Program.java" />
       </list>
     </option>
   </component>
@@ -124,6 +126,7 @@
     <panes>
       <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -184,7 +187,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -673,7 +675,8 @@
       <workItem from="1461311347750" duration="89000" />
       <workItem from="1461369286886" duration="17960000" />
       <workItem from="1461421615199" duration="1184000" />
-      <workItem from="1461483592992" duration="21855000" />
+      <workItem from="1461483592992" duration="22179000" />
+      <workItem from="1461572617330" duration="6039000" />
     </task>
     <task id="LOCAL-00001" summary="test idea+git">
       <created>1460483492342</created>
@@ -685,11 +688,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="81066000" />
+    <option name="totallyTimeSpent" value="87429000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -698,7 +701,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18430035" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.093856655" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.41808873" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19667171" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -708,7 +711,7 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.105802044" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4095563" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -738,12 +741,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/stonesgame/Game.java</url>
-          <line>50</line>
+          <line>49</line>
           <properties />
-          <option name="timeStamp" value="4" />
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="11" />
+      <option name="time" value="18" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -755,7 +758,7 @@
     <entry file="file://$PROJECT_DIR$/src/stonesgame/Program.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
+          <caret line="61" column="101" selection-start-line="61" selection-start-column="93" selection-end-line="61" selection-end-column="101" />
           <folding />
         </state>
       </provider>
@@ -765,7 +768,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -783,7 +788,29 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stonesgame/Program.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="17" column="24" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/stonesgame/Game.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -801,7 +828,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -819,7 +848,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -837,7 +868,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -855,7 +888,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -873,7 +908,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -891,7 +928,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -909,7 +948,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -927,7 +968,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -945,7 +988,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -963,7 +1008,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -981,7 +1028,9 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>
@@ -997,17 +1046,19 @@
     <entry file="file://$PROJECT_DIR$/src/stonesgame/Program.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="61" column="101" selection-start-line="61" selection-start-column="93" selection-end-line="61" selection-end-column="101" />
+          <caret line="9" column="22" selection-start-line="9" selection-start-column="22" selection-end-line="9" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/stonesgame/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.12007169">
-          <caret line="139" column="26" selection-start-line="139" selection-start-column="26" selection-end-line="139" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.49056605">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
           <folding>
-            <marker date="1461531941133" expanded="true" signature="6275:6335" placeholder="{...}" />
+            <element signature="e#12197#12198#0" expanded="true" />
+            <element signature="e#12230#12231#0" expanded="true" />
+            <marker date="1461578845151" expanded="true" signature="6968:7033" placeholder="{...}" />
           </folding>
         </state>
       </provider>

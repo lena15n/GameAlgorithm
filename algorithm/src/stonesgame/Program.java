@@ -6,7 +6,8 @@ public class Program {
     public static void main(String[] args) {
         System.out.println("Stones algorithm\n");
 
-        startGame(2016);
+        //startGame(2016);
+        startGame(2008);
     }
 
     public static void startGame(int numOfGame) {
@@ -20,8 +21,6 @@ public class Program {
 
         switch(numOfGame){
             case 2016:{
-                countOfPlayers = 2;
-
                 Operation operation1 = new Operation('+', 1);
                 Operation operation2 = new Operation('*', 2);
                 operations.add(operation1);
@@ -41,9 +40,22 @@ public class Program {
             }
             break;
 
-            case 0:{
-                countOfPlayers = 2;
+            case 2008:{
+                Operation operation1 = new Operation('+', 2);
+                Operation operation2 = new Operation('*', 3);
+                operations.add(operation1);
+                operations.add(operation2);
 
+                stonesInHeaps.add(1);
+                stonesInHeaps.add(2);
+
+                endSum = 17;
+
+                firstPlayer = 0;
+            }
+            break;
+
+            case 0:{
                 Operation operation1 = new Operation('+', 1);
                 Operation operation2 = new Operation('*', 2);
                 operations.add(operation1);

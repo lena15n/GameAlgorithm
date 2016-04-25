@@ -27,7 +27,6 @@ public class Game {
         this.MAX_DEPTH = maxDepth;
         this.startState = new State((ArrayList<Integer>) INITIAL_STONES_IN_HEAPS.clone());
         startState.setStep(0);//вершина дерева игры, номер сделанного хода
-        startState.setPlayer(FIRST_PLAYER);
         winner = -1;
         COUNT_OF_BRANCHES = INITIAL_STONES_IN_HEAPS.size() * OPERATIONS.size();
     }
@@ -46,7 +45,7 @@ public class Game {
         queue.add(startState);
         buildGameTreeBranch(queue);
 
-       // findWinSolutionAndWinner();
+        findWinSolutionAndWinner();
 
         System.out.println("\n\n--end creating--\n\n");
     }
@@ -91,6 +90,10 @@ public class Game {
 
             for (Integer stonesOfOneHeap : currentStonesInHeaps) {
                 State possibleState = new State(currentState, operation);
+                if (possibleState.getPlayer() == -1) {
+                    possibleState.setPlayer(FIRST_PLAYER);
+                }
+
                 possibleState.setHeap(heapNum, operation.apply(stonesOfOneHeap));
 
                 if (possibleState.getSumm() >= END_OF_GAME_SUM) {
@@ -124,49 +127,58 @@ public class Game {
     }
 
     private void findWinSolutionAndWinner(){
-        HashSet<State> leadStates = new HashSet<>();
-
-        isPlayerIsWinner(startState, 0);// мб не 0 игрок
+        //HashSet<State> leadStates = new HashSet<>();
 
 
 
-
-        /*//win in every possible state
-            winner = 100;//идет присвоение победителя
-        }*/
+        if (isFirstPlayerIsWinner(startState)) {
+            winner = FIRST_PLAYER;
+        }
+        else {
+            winner = FIRST_PLAYER == 0 ? 1 : 0;//'противоположный первому игроку' игрок
+        }
     }
 
-    private boolean isPlayerIsWinner(State currentState, int player){//запуск из корня или хода 2-4-6 игрока, ищем победу 1-3-5 игрока
-        //TODO: ПЕРЕПИСАТЬ,
-        // проверить, что длина ветки более трех
-        // проверять, что состояния не листья
+    private boolean isFirstPlayerIsWinner(State currentState){
+        /*
+         суть алгоритма:
+         цель: проверить, что выигрывает 0 игрок.
+
+         запуск из состояния -1 корня или из состояния 1 игрока,
+
+         просматриваем его детей  (состояния 0 игрока),             результат будет - операция | над результатом от всех детей
+         просматриваем всех внуков (состояния 1 игрока)  из детей,  результат будет - операция & над результатом от всех внуков
+
+         запуск из любого следующего состояния рекурсивно(было: запуск из состояния 1 игрока рекурсивно)
+         */
         int count = 0;
         ArrayList<State> states = currentState.getNextStates();
 
-        if (currentState.getPlayer() != player) {
-            for (State state : states) {
-                if (state.isItWinState()) {//дописать для случая когда победа на 0-1 ходах
+        if (currentState.getPlayer() != FIRST_PLAYER) {
+            for (State state : states) {//просмотр детей (состояния 0 игрока)
+                if (state.isItWinState()) {
                     count++;
                 } else {
-                    if (isPlayerIsWinner(state, player)){
+                    if (isFirstPlayerIsWinner(state)){
                         count++;
                     }
                 }
             }
+
+            return count > 0;//хотя бы одна победа на какой-то из ветвей
         }
         else {
             for (State state : states) {
-                if (isPlayerIsWinner(state, player)) {
+                if (state.isItWinState()){//выходим сразу, т к есть хотя бы одна возможность выигрыша у противника
+                    return false;
+                }
+                if (isFirstPlayerIsWinner(state)) {
                     count++;
                 }
             }
+
+            return count == states.size();
         }
-
-
-        return count == states.size();
-
-
-
 
         /*ArrayList<State> states = currentState.getNextStates();
         int opponentLosses = 0;
@@ -201,7 +213,7 @@ public class Game {
         }
 
         for (State state : states){
-            isPlayerIsWinner(state, leadStates);
+            isFirstPlayerIsWinner(state, leadStates);
         }*/
     }
 
@@ -272,7 +284,17 @@ class State {
         counter++;
         this.stonesInHeaps = (ArrayList<Integer>) state.getStonesInHeaps().clone();
         updateSumm();
-        player =  ((state.getPlayer() == 0) ? 1 : 0);//противоположный игрок теперь
+
+        if (state.getPlayer() == 0){        //противоположный игрок теперь
+            player = 1;
+        }
+        else if (state.getPlayer() == 1){   //противоположный игрок теперь
+            player = 0;
+        }
+        else {//значение игрока еще не было установлено - корневое состояние
+            player = -1;
+        }
+
         step = state.getStep() + 1;
         win = false;
         this.operation = operation;

@@ -51,13 +51,14 @@ public class Game {
     }
 
     private void buildGameTreeBranch(ArrayDeque<State> queue) {
+        //TODO: сделать итерационным до максимальной глубины, т к рекурсия будет более долгой
         if (!queue.isEmpty()) {//можно и без очереди, просто контроль по step
             State currentState = queue.remove();
             /*if (currentState.getStep() >= MAX_DEPTH){//шоб было на всякий случай
                 return;
             }*/
 
-            if (!currentState.isItWinState()) {
+            if (!(currentState.getWin() == 1)) {
                 currentState.setNextStates(calculateAllPossibleStatesOnIter(currentState));
 
                 ArrayList<State> states = currentState.getNextStates();
@@ -73,6 +74,7 @@ public class Game {
     }
 
     private ArrayList<State> calculateAllPossibleStatesOnIter(State currentState) {
+        //TODO: set prevState to all States
         ArrayList<State> possibleStates = new ArrayList<>();
 
         System.out.print("Current state is: ");
@@ -130,8 +132,9 @@ public class Game {
         //HashSet<State> leadStates = new HashSet<>();
 
 
+        setWinAndLooseStates(startState);//запуск покраски для всех веток
 
-        if (isFirstPlayerIsWinner(startState)) {
+        if (startState.getWin() == 0) {
             winner = FIRST_PLAYER;
         }
         else {
@@ -139,7 +142,40 @@ public class Game {
         }
     }
 
-    private boolean isFirstPlayerIsWinner(State currentState){
+    private void setWinAndLooseStates(State currentState){// запуск из уровня 1 (не корень)
+        int count = 0;
+        ArrayList<State> states = currentState.getNextStates();
+
+        if (currentState.getWin() == -1) {//если победа уже на первом ходе
+            for (State state : states) {
+                if (state.getWin() == 1) {//вершина листовая
+                    currentState.setLoose();//при хотя бы одной победе противника помещаем состояние проигрышным
+                }
+                else if (state.getWin() == 0){//смотрим сколько проигрышных состояний противника
+                    count++;
+                }
+                else if (state.getWin() == -1){
+                    setWinAndLooseStates(state);
+
+                    if (state.getWin() == 1){
+                        currentState.setLoose();
+                    }
+                    else {
+                        count++;
+                    }
+                }
+            }
+
+            if (count == states.size()){
+                currentState.setWin();
+            }
+            else {
+                currentState.setLoose();
+            }
+        }
+    }
+
+    //private boolean isFirstPlayerIsWinner1(State currentState){
         /*
          суть алгоритма:
          цель: проверить, что выигрывает 0 игрок.
@@ -151,15 +187,17 @@ public class Game {
 
          запуск из любого следующего состояния рекурсивно(было: запуск из состояния 1 игрока рекурсивно)
          */
-        int count = 0;
+
+
+        /*int count = 0;
         ArrayList<State> states = currentState.getNextStates();
 
         if (currentState.getPlayer() != FIRST_PLAYER) {
             for (State state : states) {//просмотр детей (состояния 0 игрока)
-                if (state.isItWinState()) {
+                if (state.getWin()) {
                     count++;
                 } else {
-                    if (isFirstPlayerIsWinner(state)){
+                    if (setWinAndLooseStates(state)){
                         count++;
                     }
                 }
@@ -169,22 +207,24 @@ public class Game {
         }
         else {
             for (State state : states) {
-                if (state.isItWinState()){//выходим сразу, т к есть хотя бы одна возможность выигрыша у противника
+                if (state.getWin()){//выходим сразу, т к есть хотя бы одна возможность выигрыша у противника
                     return false;
                 }
-                if (isFirstPlayerIsWinner(state)) {
+                if (setWinAndLooseStates(state)) {
                     count++;
                 }
             }
 
             return count == states.size();
-        }
+        }*/
+
+
 
         /*ArrayList<State> states = currentState.getNextStates();
         int opponentLosses = 0;
 
         for(State state : states){
-            if (!state.isItWinState()){
+            if (!state.getWin()){
                 opponentLosses++;
             }
         }
@@ -197,7 +237,7 @@ public class Game {
                int localWinStateCount = 0;
 
                for (State childState : nextStates){
-                   if (childState.isItWinState()){
+                   if (childState.getWin()){
                        localWinStateCount++;
                    }
                }
@@ -213,16 +253,16 @@ public class Game {
         }
 
         for (State state : states){
-            isFirstPlayerIsWinner(state, leadStates);
+            setWinAndLooseStates(state, leadStates);
         }*/
-    }
+    //}
 
-    private void check(State currentState, HashSet<State> leadStates){
+    /*private void check(State currentState, HashSet<State> leadStates){
         ArrayList<State> opponentStates = currentState.getNextStates();
         int opponentLosses = 0;
 
         for(State state : opponentStates){
-            if (!state.isItWinState()){
+            if (!state.getWin()){
                 opponentLosses++;
             }
         }
@@ -235,7 +275,7 @@ public class Game {
                 int localWinStateCount = 0;
 
                 for (State childState : nextStates) {
-                    if (childState.isItWinState()) {
+                    if (childState.getWin()) {
                         localWinStateCount++;
                     }
                     //рекурсия поиска winstate
@@ -250,7 +290,7 @@ public class Game {
                 leadStates.add(currentState);
             }
         }
-    }
+    }*/
 
     public int getWinner() {
         return winner;
@@ -261,8 +301,9 @@ class State {
     private static long counter;
     private long index;//номер просто вершины в дереве
     private long step;//номер хода в игре (несколько состояний могут иметь один и тот же номер хода)
+    //TODO: сделать обычным массивом константной длины, т к в течение всей игры его размер не изменится
     private ArrayList<Integer> stonesInHeaps;
-    private boolean win;
+    private int win;//-1 0 1
     private int player;//сделавший данный ход - тот, кто получил такое состояние, а не тот, кто только начнет ходить
     private int summ;//сумма всех камней в кучах
     private State prevState;
@@ -274,7 +315,7 @@ class State {
         counter++;
         this.stonesInHeaps = stonesInHeaps;
         updateSumm();
-        win = false;
+        win = -1;
         player = -1;
         prevState = null;
     }
@@ -296,7 +337,7 @@ class State {
         }
 
         step = state.getStep() + 1;
-        win = false;
+        win = -1;
         this.operation = operation;
         this.prevState = state.getPrevState();
     }
@@ -384,12 +425,16 @@ class State {
     }*/
 
 
-    public boolean isItWinState() {
+    public int getWin() {
         return win;
     }
 
     public void setWin() {
-        win = true;
+        win = 1;
+    }
+
+    public void setLoose() {
+        win = 0;
     }
 
     public void setHeap(int index, int newCountOfStones) {

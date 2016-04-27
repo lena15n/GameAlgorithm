@@ -6,8 +6,8 @@ public class Program {
     public static void main(String[] args) {
         System.out.println("Stones algorithm\n");
 
-        //startGame(2016);
-        startGame(2008);
+        //startGame(2008);
+        startGame(2016);
     }
 
     public static void startGame(int numOfGame) {

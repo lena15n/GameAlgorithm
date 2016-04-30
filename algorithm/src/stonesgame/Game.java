@@ -16,7 +16,6 @@ public class Game {
     private State startState;
 
 
-
     public Game(int countOfPlayers, ArrayList<Operation> operations, ArrayList<Integer> stonesInHeaps, int endOfGameSum,
                 int firstGamer, int maxDepth) {
         this.COUNT_OF_PLAYERS = countOfPlayers;
@@ -31,11 +30,12 @@ public class Game {
         COUNT_OF_BRANCHES = INITIAL_STONES_IN_HEAPS.size() * OPERATIONS.size();
     }
 
-    private ArrayList<Operation> sort(ArrayList<Operation> operations){//удалить к херам мб
-        Collections.sort(operations,new Comparator<Operation>(){
-            public int compare(Operation o1, Operation o2){
+    private ArrayList<Operation> sort(ArrayList<Operation> operations) {//удалить к херам мб
+        Collections.sort(operations, new Comparator<Operation>() {
+            public int compare(Operation o1, Operation o2) {
                 return o2.compareTo(o1);//по "убыванию"
-            }});
+            }
+        });
 
         return operations;
     }
@@ -46,6 +46,8 @@ public class Game {
         buildGameTreeBranch(queue);
 
         findWinSolutionAndWinner();
+
+        cutBranches(startState);
 
         System.out.println("\n\n--end creating--\n\n");
     }
@@ -128,21 +130,19 @@ public class Game {
         return possibleStates;
     }
 
-    private void findWinSolutionAndWinner(){
-        //HashSet<State> leadStates = new HashSet<>();
-
-
+    private void findWinSolutionAndWinner() {
         setWinAndLooseStates(startState);//запуск покраски для всех веток
 
         if (startState.getWin() == 0) {
             winner = FIRST_PLAYER;
-        }
-        else {
+        } else {
             winner = FIRST_PLAYER == 0 ? 1 : 0;//'противоположный первому игроку' игрок
         }
+
+        cutBranches(startState);
     }
 
-    private void setWinAndLooseStates(State currentState){// запуск из уровня 1 (не корень)
+    private void setWinAndLooseStates(State currentState) {// запуск из уровня 1 (не корень)
         int count = 0;
         ArrayList<State> states = currentState.getNextStates();
 
@@ -150,31 +150,57 @@ public class Game {
             for (State state : states) {
                 if (state.getWin() == 1) {//вершина листовая
                     currentState.setLoose();//при хотя бы одной победе противника помещаем состояние проигрышным
-                }
-                else if (state.getWin() == 0){//смотрим сколько проигрышных состояний противника
+                } else if (state.getWin() == 0) {//смотрим сколько проигрышных состояний противника
                     count++;
-                }
-                else if (state.getWin() == -1){
+                } else if (state.getWin() == -1) {
                     setWinAndLooseStates(state);
 
-                    if (state.getWin() == 1){
+                    if (state.getWin() == 1) {
                         currentState.setLoose();
-                    }
-                    else {
+                    } else {
                         count++;
                     }
                 }
             }
 
-            if (count == states.size()){
+            if (count == states.size()) {
                 currentState.setWin();
-            }
-            else {
+            } else {
                 currentState.setLoose();
             }
         }
     }
 
+    private void cutBranches(State currentState) {
+        //знаем выигрышные и проигрышные вершины,
+        //устраняем случаи: из проигрышной ветки вдруг приходим к выигрышу
+        //т е из проигрышной вершины (player = x) выходит проигрышная вершина (player = y)
+        if (currentState.getNextStates() != null) {
+            ArrayList<State> nextStates = currentState.getNextStates();
+            ArrayList<State> excessStates = new ArrayList<>();
+
+            //собираем индексы детей, которых надо удалить из текущей
+            for (State nextState : nextStates) {
+                if (currentState.getWin() == 0 && nextState.getWin() == 0) {
+                    excessStates.add(nextState);
+                }
+                else {
+                    cutBranches(nextState);
+                }
+
+            }
+            //удаляем
+            nextStates.removeAll(excessStates);
+
+        }
+    }
+
+    private boolean isItExcessBranch(State currentState) {// если эта вершина проигрышная, а из нее идет проигрышная, player разный у них
+        boolean result = false;
+
+
+        return result;
+    }
     //private boolean isFirstPlayerIsWinner1(State currentState){
         /*
          суть алгоритма:
@@ -306,7 +332,7 @@ class State {
     private int win;//-1 0 1
     private int player;//сделавший данный ход - тот, кто получил такое состояние, а не тот, кто только начнет ходить
     private int summ;//сумма всех камней в кучах
-    private State prevState;
+    private State prevState;//TODO: или удалить или присваивать родителя сюда
     private ArrayList<State> nextStates;//то, почему Ход/State - дерево
     private Operation operation;
 
@@ -326,13 +352,11 @@ class State {
         this.stonesInHeaps = (ArrayList<Integer>) state.getStonesInHeaps().clone();
         updateSumm();
 
-        if (state.getPlayer() == 0){        //противоположный игрок теперь
+        if (state.getPlayer() == 0) {        //противоположный игрок теперь
             player = 1;
-        }
-        else if (state.getPlayer() == 1){   //противоположный игрок теперь
+        } else if (state.getPlayer() == 1) {   //противоположный игрок теперь
             player = 0;
-        }
-        else {//значение игрока еще не было установлено - корневое состояние
+        } else {//значение игрока еще не было установлено - корневое состояние
             player = -1;
         }
 
@@ -341,7 +365,6 @@ class State {
         this.operation = operation;
         this.prevState = state.getPrevState();
     }
-
 
 
     public void updateSumm() {
@@ -505,7 +528,7 @@ class State {
     }
 }
 
-class Operation implements Comparable<Operation>{
+class Operation implements Comparable<Operation> {
     private final int x;
     private final char operator;
 
@@ -534,19 +557,16 @@ class Operation implements Comparable<Operation>{
 
     @Override
     public int compareTo(Operation o) {
-        if (operator == '+'){
-            if(o.operator == '+'){
+        if (operator == '+') {
+            if (o.operator == '+') {
                 return x - o.x;
-            }
-            else {
+            } else {
                 return -1; // условно '+' < '*'
             }
-        }
-        else if (operator == '*'){
-            if(o.operator == '*'){
+        } else if (operator == '*') {
+            if (o.operator == '*') {
                 return x - o.x;
-            }
-            else {
+            } else {
                 return 1; // условно '*' > '+'
             }
         }

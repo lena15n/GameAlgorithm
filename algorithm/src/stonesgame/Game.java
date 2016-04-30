@@ -1,6 +1,13 @@
 package stonesgame;
 
+import java.io.*;
 import java.util.*;
+//import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 
 public class Game {
     public final int COUNT_OF_PLAYERS;
@@ -45,11 +52,17 @@ public class Game {
         queue.add(startState);
         buildGameTreeBranch(queue);
 
-        findWinSolutionAndWinner();
+        findWinner();
 
         cutBranches(startState);
 
+        toJSON(startState);
+
         System.out.println("\n\n--end creating--\n\n");
+    }
+
+    public int getWinner() {
+        return winner;
     }
 
     private void buildGameTreeBranch(ArrayDeque<State> queue) {
@@ -130,7 +143,7 @@ public class Game {
         return possibleStates;
     }
 
-    private void findWinSolutionAndWinner() {
+    private void findWinner() {
         setWinAndLooseStates(startState);//запуск покраски для всех веток
 
         if (startState.getWin() == 0) {
@@ -195,143 +208,37 @@ public class Game {
         }
     }
 
-    private boolean isItExcessBranch(State currentState) {// если эта вершина проигрышная, а из нее идет проигрышная, player разный у них
-        boolean result = false;
+    private void toJSON(State state){
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            ObjectWriter writer = mapper.writer(new DefaultPrettyPrinter());
+            writer.writeValue(new File("gametree.json"),state);
 
 
-        return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
-    //private boolean isFirstPlayerIsWinner1(State currentState){
-        /*
-         суть алгоритма:
-         цель: проверить, что выигрывает 0 игрок.
-
-         запуск из состояния -1 корня или из состояния 1 игрока,
-
-         просматриваем его детей  (состояния 0 игрока),             результат будет - операция | над результатом от всех детей
-         просматриваем всех внуков (состояния 1 игрока)  из детей,  результат будет - операция & над результатом от всех внуков
-
-         запуск из любого следующего состояния рекурсивно(было: запуск из состояния 1 игрока рекурсивно)
-         */
 
 
-        /*int count = 0;
-        ArrayList<State> states = currentState.getNextStates();
-
-        if (currentState.getPlayer() != FIRST_PLAYER) {
-            for (State state : states) {//просмотр детей (состояния 0 игрока)
-                if (state.getWin()) {
-                    count++;
-                } else {
-                    if (setWinAndLooseStates(state)){
-                        count++;
-                    }
-                }
-            }
-
-            return count > 0;//хотя бы одна победа на какой-то из ветвей
-        }
-        else {
-            for (State state : states) {
-                if (state.getWin()){//выходим сразу, т к есть хотя бы одна возможность выигрыша у противника
-                    return false;
-                }
-                if (setWinAndLooseStates(state)) {
-                    count++;
-                }
-            }
-
-            return count == states.size();
-        }*/
-
-
-
-        /*ArrayList<State> states = currentState.getNextStates();
-        int opponentLosses = 0;
-
-        for(State state : states){
-            if (!state.getWin()){
-                opponentLosses++;
-            }
-        }
-
-        if (opponentLosses == states.size()){//каждый ход противника НЕ приводит его к победе
-           int winStatesCount = 0;
-
-           for (State state : states){
-               ArrayList<State> nextStates = state.getNextStates();
-               int localWinStateCount = 0;
-
-               for (State childState : nextStates){
-                   if (childState.getWin()){
-                       localWinStateCount++;
-                   }
-               }
-
-               if (localWinStateCount > 0){
-                    winStatesCount++;
-               }
-           }
-
-            if (winStatesCount == states.size()){
-                leadStates.add(currentState);
-            }
-        }
-
-        for (State state : states){
-            setWinAndLooseStates(state, leadStates);
-        }*/
-    //}
-
-    /*private void check(State currentState, HashSet<State> leadStates){
-        ArrayList<State> opponentStates = currentState.getNextStates();
-        int opponentLosses = 0;
-
-        for(State state : opponentStates){
-            if (!state.getWin()){
-                opponentLosses++;
-            }
-        }
-
-        if (opponentLosses == opponentStates.size()) {//каждый ход противника НЕ приводит его к победе
-            int winStatesCount = 0;
-
-            for (State state : opponentStates) {
-                ArrayList<State> nextStates = state.getNextStates();
-                int localWinStateCount = 0;
-
-                for (State childState : nextStates) {
-                    if (childState.getWin()) {
-                        localWinStateCount++;
-                    }
-                    //рекурсия поиска winstate
-                }
-
-                if (localWinStateCount > 0) {
-                    winStatesCount++;
-                }
-            }
-
-            if (winStatesCount == opponentStates.size()) {
-                leadStates.add(currentState);
-            }
-        }
-    }*/
-
-    public int getWinner() {
-        return winner;
-    }
 }
 
 class State {
     private static long counter;
+    @JsonIgnore
     private long index;//номер просто вершины в дереве
+
     private long step;//номер хода в игре (несколько состояний могут иметь один и тот же номер хода)
     //TODO: сделать обычным массивом константной длины, т к в течение всей игры его размер не изменится
     private ArrayList<Integer> stonesInHeaps;
     private int win;//-1 0 1
     private int player;//сделавший данный ход - тот, кто получил такое состояние, а не тот, кто только начнет ходить
     private int summ;//сумма всех камней в кучах
+    //@JsonProperty("carModel")
+    @JsonIgnore
     private State prevState;//TODO: или удалить или присваивать родителя сюда
     private ArrayList<State> nextStates;//то, почему Ход/State - дерево
     private Operation operation;
@@ -529,7 +436,9 @@ class State {
 }
 
 class Operation implements Comparable<Operation> {
+    @JsonProperty("value")
     private final int x;
+    @JsonProperty
     private final char operator;
 
     Operation(char operator, int x) {

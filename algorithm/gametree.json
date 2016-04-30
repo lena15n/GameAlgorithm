@@ -1,0 +1,350 @@
+{
+  "step" : 0,
+  "stonesInHeaps" : [ 7, 31 ],
+  "win" : 1,
+  "player" : -1,
+  "summ" : 38,
+  "nextStates" : [ {
+    "step" : 1,
+    "stonesInHeaps" : [ 14, 31 ],
+    "win" : 0,
+    "player" : 0,
+    "summ" : 45,
+    "nextStates" : [ {
+      "step" : 2,
+      "stonesInHeaps" : [ 14, 62 ],
+      "win" : 1,
+      "player" : 1,
+      "summ" : 76,
+      "nextStates" : null,
+      "operation" : {
+        "operator" : "*",
+        "value" : 2
+      }
+    } ],
+    "operation" : {
+      "operator" : "*",
+      "value" : 2
+    }
+  }, {
+    "step" : 1,
+    "stonesInHeaps" : [ 7, 62 ],
+    "win" : 0,
+    "player" : 0,
+    "summ" : 69,
+    "nextStates" : [ {
+      "step" : 2,
+      "stonesInHeaps" : [ 14, 62 ],
+      "win" : 1,
+      "player" : 1,
+      "summ" : 76,
+      "nextStates" : null,
+      "operation" : {
+        "operator" : "*",
+        "value" : 2
+      }
+    }, {
+      "step" : 2,
+      "stonesInHeaps" : [ 7, 124 ],
+      "win" : 1,
+      "player" : 1,
+      "summ" : 131,
+      "nextStates" : null,
+      "operation" : {
+        "operator" : "*",
+        "value" : 2
+      }
+    } ],
+    "operation" : {
+      "operator" : "*",
+      "value" : 2
+    }
+  }, {
+    "step" : 1,
+    "stonesInHeaps" : [ 8, 31 ],
+    "win" : 0,
+    "player" : 0,
+    "summ" : 39,
+    "nextStates" : [ {
+      "step" : 2,
+      "stonesInHeaps" : [ 8, 32 ],
+      "win" : 1,
+      "player" : 1,
+      "summ" : 40,
+      "nextStates" : [ {
+        "step" : 3,
+        "stonesInHeaps" : [ 16, 32 ],
+        "win" : 0,
+        "player" : 0,
+        "summ" : 48,
+        "nextStates" : [ {
+          "step" : 4,
+          "stonesInHeaps" : [ 16, 64 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 80,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "*",
+            "value" : 2
+          }
+        } ],
+        "operation" : {
+          "operator" : "*",
+          "value" : 2
+        }
+      }, {
+        "step" : 3,
+        "stonesInHeaps" : [ 8, 64 ],
+        "win" : 0,
+        "player" : 0,
+        "summ" : 72,
+        "nextStates" : [ {
+          "step" : 4,
+          "stonesInHeaps" : [ 16, 64 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 80,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "*",
+            "value" : 2
+          }
+        }, {
+          "step" : 4,
+          "stonesInHeaps" : [ 8, 128 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 136,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "*",
+            "value" : 2
+          }
+        }, {
+          "step" : 4,
+          "stonesInHeaps" : [ 9, 64 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 73,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "+",
+            "value" : 1
+          }
+        }, {
+          "step" : 4,
+          "stonesInHeaps" : [ 8, 65 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 73,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "+",
+            "value" : 1
+          }
+        } ],
+        "operation" : {
+          "operator" : "*",
+          "value" : 2
+        }
+      }, {
+        "step" : 3,
+        "stonesInHeaps" : [ 9, 32 ],
+        "win" : 0,
+        "player" : 0,
+        "summ" : 41,
+        "nextStates" : [ {
+          "step" : 4,
+          "stonesInHeaps" : [ 9, 64 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 73,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "*",
+            "value" : 2
+          }
+        } ],
+        "operation" : {
+          "operator" : "+",
+          "value" : 1
+        }
+      }, {
+        "step" : 3,
+        "stonesInHeaps" : [ 8, 33 ],
+        "win" : 0,
+        "player" : 0,
+        "summ" : 41,
+        "nextStates" : [ {
+          "step" : 4,
+          "stonesInHeaps" : [ 8, 66 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 74,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "*",
+            "value" : 2
+          }
+        } ],
+        "operation" : {
+          "operator" : "+",
+          "value" : 1
+        }
+      } ],
+      "operation" : {
+        "operator" : "+",
+        "value" : 1
+      }
+    } ],
+    "operation" : {
+      "operator" : "+",
+      "value" : 1
+    }
+  }, {
+    "step" : 1,
+    "stonesInHeaps" : [ 7, 32 ],
+    "win" : 0,
+    "player" : 0,
+    "summ" : 39,
+    "nextStates" : [ {
+      "step" : 2,
+      "stonesInHeaps" : [ 8, 32 ],
+      "win" : 1,
+      "player" : 1,
+      "summ" : 40,
+      "nextStates" : [ {
+        "step" : 3,
+        "stonesInHeaps" : [ 16, 32 ],
+        "win" : 0,
+        "player" : 0,
+        "summ" : 48,
+        "nextStates" : [ {
+          "step" : 4,
+          "stonesInHeaps" : [ 16, 64 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 80,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "*",
+            "value" : 2
+          }
+        } ],
+        "operation" : {
+          "operator" : "*",
+          "value" : 2
+        }
+      }, {
+        "step" : 3,
+        "stonesInHeaps" : [ 8, 64 ],
+        "win" : 0,
+        "player" : 0,
+        "summ" : 72,
+        "nextStates" : [ {
+          "step" : 4,
+          "stonesInHeaps" : [ 16, 64 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 80,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "*",
+            "value" : 2
+          }
+        }, {
+          "step" : 4,
+          "stonesInHeaps" : [ 8, 128 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 136,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "*",
+            "value" : 2
+          }
+        }, {
+          "step" : 4,
+          "stonesInHeaps" : [ 9, 64 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 73,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "+",
+            "value" : 1
+          }
+        }, {
+          "step" : 4,
+          "stonesInHeaps" : [ 8, 65 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 73,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "+",
+            "value" : 1
+          }
+        } ],
+        "operation" : {
+          "operator" : "*",
+          "value" : 2
+        }
+      }, {
+        "step" : 3,
+        "stonesInHeaps" : [ 9, 32 ],
+        "win" : 0,
+        "player" : 0,
+        "summ" : 41,
+        "nextStates" : [ {
+          "step" : 4,
+          "stonesInHeaps" : [ 9, 64 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 73,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "*",
+            "value" : 2
+          }
+        } ],
+        "operation" : {
+          "operator" : "+",
+          "value" : 1
+        }
+      }, {
+        "step" : 3,
+        "stonesInHeaps" : [ 8, 33 ],
+        "win" : 0,
+        "player" : 0,
+        "summ" : 41,
+        "nextStates" : [ {
+          "step" : 4,
+          "stonesInHeaps" : [ 8, 66 ],
+          "win" : 1,
+          "player" : 1,
+          "summ" : 74,
+          "nextStates" : null,
+          "operation" : {
+            "operator" : "*",
+            "value" : 2
+          }
+        } ],
+        "operation" : {
+          "operator" : "+",
+          "value" : 1
+        }
+      } ],
+      "operation" : {
+        "operator" : "+",
+        "value" : 1
+      }
+    } ],
+    "operation" : {
+      "operator" : "+",
+      "value" : 1
+    }
+  } ],
+  "operation" : null
+}

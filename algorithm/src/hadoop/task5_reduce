@@ -1,0 +1,53 @@
+1,a	1
+1,b	1
+1,b	1
+2,a	1
+2,d	1
+2,e	1
+3,a	1
+3,b	1
+
+File file = new File("src/hadoop/task6");
+        BufferedReader reader = new BufferedReader(new FileReader(file));//new InputStreamReader(System.in));
+        String string;
+        ArrayList<String> associativeArray = new ArrayList<>();
+        String f = "";
+        String g = "";
+        //f     g
+
+        try {
+            while ((string = reader.readLine()) != null) {
+                String[] keyValue = string.split("\t");
+
+                String newF = keyValue[0];
+                String newG = keyValue[1];
+
+                if (f.equals(newF)){
+                    if (!g.equals(newG)){
+                        g = newG;
+                        associativeArray.add(g);
+                        count = 1;
+                    }
+                }
+                else {
+                    f = newF;
+                    g = newG;
+
+                    associativeArray.add(g);
+                }
+            }
+
+            String key = "";
+            String value = "";
+
+            for (String group : associativeArray){
+                System.out.println(group + "\t1");
+            }
+
+            for (String group : associativeArray){
+                System.out.println(group + "\t1");
+            }
+
+        } catch (IOException e) {
+
+        }

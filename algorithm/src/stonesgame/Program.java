@@ -21,8 +21,8 @@ public class Program {
 
         switch(numOfGame){
             case 2016:{
-                Operation operation1 = new Operation('+', 1);
-                Operation operation2 = new Operation('*', 2);
+                Operation operation1 = new Operation('*', 2);
+                Operation operation2 = new Operation('+', 1);
                 operations.add(operation1);
                 operations.add(operation2);
 
